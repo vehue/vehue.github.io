@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="https://getbootstrap.com/docs/4.1/assets/img/favicons/favicon.ico">
+  <title>Trở lại Thần Kinh</title>
+  <script src="https://kit.fontawesome.com/3544aea762.js"></script>
+  <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/floating-labels/">
+  <link href="./asset/bootstrap.min.css" rel="stylesheet">
+  <link href="./asset/floating-labels.css" rel="stylesheet">
+  <script src="./asset/knockout-3.5.0.js"></script>
+</head>
+
+<body cz-shortcut-listen="true" style="padding-top:0px">
+  <form class="form-signin">
+    <div class="text-center mb-4">
+      <img class="mb-4" src="./asset/img.jpg" alt="" width="55%">
+      <p class="small text-danger">Nếu hôm nay là ngày cuối cùng anh sống</p>
+      <p class="small text-danger">Anh sẽ dành 24 tiếng để yêu em</p>
+    </div>
+    <div class="form-label-group">
+      <input data-bind="value: TienDangCo, valueUpdate: 'afterkeydown'" id="dangco" type="number"
+        class="form-control form-control-lg" placeholder="Số tiền đang có" required="" autofocus="">
+      <label for="dangco"><i class="fas fa-money-check-alt"></i> Số tiền đang có</label>
+    </div>
+    <div class="form-label-group">
+      <input data-bind="value: VeMayBay, valueUpdate: 'afterkeydown'" id="vemaybay" type="number"
+        class="form-control form-control-lg" placeholder="Vé máy bay" required="">
+      <label for="vemaybay"><i class="fas fa-plane-departure"></i> Vé máy bay</label>
+    </div>
+    <div class="form-label-group">
+      <input data-bind="value: KhachSan, valueUpdate: 'afterkeydown'" id="khachsan" type="number"
+        class="form-control form-control-lg" placeholder="Khách sạn" required="">
+      <label for="khachsan"><i class="fas fa-hotel"></i> Khách sạn</label>
+    </div>
+    <div class="form-label-group">
+      <input data-bind="value: Qua, valueUpdate: 'afterkeydown'" id="qua" type="number"
+        class="form-control form-control-lg" placeholder="Quà" required="">
+      <label for="qua"><i class="fas fa-gift"></i> Quà</label>
+    </div>
+    <div class="form-label-group">
+      <input data-bind="value: ConLai, class: resultStatus, valueUpdate: 'afterkeydown'" id="ketqua" type="number"
+        class="form-control text-light form-control-lg bg-secondary" readonly>
+      <label for="ketqua" class="text-light"><i class="fas fa-poll-h"></i> Còn lại</label>
+    </div>
+  </form>
+
+  <script>
+    function IndexViewModel() {
+      self.TienDangCo = ko.observable();
+      self.VeMayBay   = ko.observable();
+      self.KhachSan   = ko.observable();
+      self.Qua        = ko.observable();
+      self.ConLai     = ko.observable(0);
+
+      self.resultStatus = ko.pureComputed(function () {
+        if (self.ConLai() < 0)
+          return "bg-danger";
+        else if (self.ConLai() == 0)
+          return "bg-warning";
+        else
+          return "bg-success";
+      });
+
+      self.KetQua = ko.computed(function () {
+        var result = (parseFloat(self.TienDangCo()) - (parseFloat(self.VeMayBay()) + parseFloat(self.KhachSan()) + parseFloat(self.Qua()) + 7.8)).toFixed(2);
+        return self.ConLai(result);
+      });
+    }
+    ko.applyBindings(new IndexViewModel());
+  </script>
+</body>
+
+</html>
